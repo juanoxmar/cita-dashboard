@@ -14,7 +14,16 @@ import axios from '../axios';
 export default function Profile() {
   const [isLoading, setLoading] = useState(true);
   const [disabled, setDisabled] = useState(true);
-  const [profile, setProfile] = useState(null);
+  const [profile, setProfile] = useState({
+    name: '',
+    businessId: '',
+    serviceType: '',
+    street: '',
+    city: '',
+    state: '',
+    zip: '',
+    photo: '',
+  });
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState(null);
   const [errMessage, setErrMessage] = useState(null);
@@ -27,11 +36,15 @@ export default function Profile() {
   useEffect(() => {
     axios.get(`/business/${id}`)
       .then((response) => {
-        setProfile(response.data);
-        setLoading(false);
+        if (response.data !== 'noProfile') {
+          setProfile(response.data);
+        }
       })
       .catch((err) => {
         setMessage(err.message);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   }, []);
 
@@ -83,7 +96,7 @@ export default function Profile() {
     <Container>
       <Row className="mt-3">
         <Col lg={4} className="mb-3">
-          <Card>
+          <Card className="shadow-sm p-3 mb-5 bg-white rounded" border="light">
             <Card.Body className="d-flex flex-column justify-content-center align-items-center">
               <Image src={user.picture} roundedCircle width="100" />
               <Card.Text className="mt-3">{user.email}</Card.Text>
