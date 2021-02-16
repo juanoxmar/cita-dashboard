@@ -1,0 +1,6 @@
+node_modules
+.env
+*.log
+bundle*
+build
+config.js
