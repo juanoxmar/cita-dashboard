@@ -13,7 +13,7 @@ export default function Navigation() {
       <Nav className="mr-auto">
         <Nav.Item>
           <Nav.Link as={Link} to="/">
-            Home
+            Appointments
           </Nav.Link>
         </Nav.Item>
         <Nav.Item>

@@ -42,11 +42,13 @@ export default function App() {
   }
 
   return (
-    <Container>
+    <>
       <Navigation />
-      <Switch>
-        {routes}
-      </Switch>
-    </Container>
+      <Container>
+        <Switch>
+          {routes}
+        </Switch>
+      </Container>
+    </>
   );
 }
