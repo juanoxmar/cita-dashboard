@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import Container from 'react-bootstrap/Container';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
@@ -9,7 +8,7 @@ import Row from 'react-bootstrap/Row';
 import Alert from 'react-bootstrap/Alert';
 import axios from '../axios';
 
-export default function AddServices({ id }) {
+export default function AddServices() {
   const [service, setService] = useState({
     service: '',
     price: 0,
@@ -24,6 +23,9 @@ export default function AddServices({ id }) {
       [e.target.id]: e.target.value,
     });
   };
+
+  // temp ID
+  const id = 2;
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -87,7 +89,3 @@ export default function AddServices({ id }) {
     </Container>
   );
 }
-
-AddServices.propTypes = {
-  id: PropTypes.string.isRequired,
-};
