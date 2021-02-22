@@ -22,3 +22,4 @@ yarn start
 
 ## How to Use
 
+![Cita](/assets/dashboard.gif)
