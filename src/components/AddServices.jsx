@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Container from 'react-bootstrap/Container';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
@@ -6,6 +6,8 @@ import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner';
 import Row from 'react-bootstrap/Row';
 import Alert from 'react-bootstrap/Alert';
+
+import ServiceCard from './ServiceCard';
 import axios from '../axios';
 
 export default function AddServices() {
@@ -14,12 +16,27 @@ export default function AddServices() {
     price: 0,
     description: '',
   });
+  const [serviceList, setServiceList] = useState([]);
   const [isLoading, setLoading] = useState(false);
   const [message, setMessage] = useState(null);
   const [errMessage, setErrMessage] = useState(null);
 
   // temp ID
   const id = 2;
+
+  const getServices = () => {
+    axios.get(`/service/${id}`)
+      .then((response) => {
+        setServiceList(response.data);
+      })
+      .catch((err) => {
+        setErrMessage(err.message);
+      });
+  };
+
+  useEffect(() => {
+    getServices();
+  }, []);
 
   const onChangeHandler = (e) => {
     setService({
@@ -44,6 +61,7 @@ export default function AddServices() {
           price: 0,
           description: '',
         });
+        getServices();
       })
       .catch((err) => {
         setErrMessage(err.message);
@@ -53,8 +71,19 @@ export default function AddServices() {
       });
   };
 
+  const deleteHandler = (_id) => {
+    axios.delete(`/service/${id}/${_id}`)
+      .then(() => {
+        getServices();
+      })
+      .catch((err) => {
+        setErrMessage(err.message);
+      });
+  };
+
   return (
     <Container>
+      <h2 className="mt-3">Add Service</h2>
       <Card className="shadow-sm p-3 m-3 bg-white rounded" border="light">
         <Form className="mx-5 my-3" onSubmit={submitHandler}>
           <Form.Group>
@@ -94,6 +123,7 @@ export default function AddServices() {
         {message}
         {errMessage}
       </Alert>
+      <ServiceCard services={serviceList} deleteHandler={deleteHandler} />
     </Container>
   );
 }
